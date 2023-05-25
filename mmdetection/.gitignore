@@ -125,5 +125,4 @@ work_dirs/
 
 # ignore add
 /wandb
-/mmcv_custom
 /wandb/
