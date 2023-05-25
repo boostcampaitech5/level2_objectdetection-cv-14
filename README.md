@@ -26,9 +26,20 @@
 
 ```
 baseline
+├── eda
+│   ├── eda.ipynb
+│   └── show image.ipynb
+│   
 ├── mmdetection
 │   ├── config
-│   └── ...
+│   ├── stratified k fold validation.ipynb
+│   ├── comfusion matrix
+│   ├── output image.ipynb
+│   ├── wbf emsemble.ipynb
+│   ├── ensemble_confidence.ipynb
+│   ├── train.py
+│   └── inference.py
+│
 ├── requirements.txt
 │
 └── yolo
