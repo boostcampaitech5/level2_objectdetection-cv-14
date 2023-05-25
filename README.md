@@ -75,11 +75,6 @@ EDA를 통해 클래스 불균형, 작은 박스 크기로 인한 분포, 어두
 모델과 하이퍼파라미터 튜닝
 
 
-실험 결과, yolo와 다른 모델들의 앙상블이 가장 높은 mAP를 달성하였습니다.
-yolo의 성능은 낮지만, 확실한 박스의 confidence를 높이는 경향이 있어 앙상블 시 성능 향상에 기여한 것으로 분석되었습니다.
-앙상블 결과는 mAP가 높지만 현실적으로 활용하기에는 불필요한 박스가 많아 실용적이지 않을 수 있습니다.
-추가적인 후처리나 조정을 통해 현실적으로 활용 가능한 결과물로 변환할 수 있을 것으로 판단됩니다.
-
 ## 모델 아키텍쳐
 
 Faster R-CNN, Cascade R-CNN, SSD, YOLO 등의 모델 아키텍처를 고려하였습니다.
@@ -91,23 +86,56 @@ Swin-Large, ConvNeXt-XLarge와 같은 pretrained 모델을 백본으로 선택�
 # Augmentation 
 
 augmentation을 적용하여 전체적인 mAP를 상승시켰습니다.
+Albumentations는 이미지 변환 기법을 제공하는 강력한 라이브러리로, 다양한 Augmentation 기법을 사용하여 데이터셋을 확장시킵니다. 위 설정에서는 이미지를 수평으로 뒤집거나, 랜덤하게 회전시키는 등의 변환을 수행합니다. 또한, 밝기와 대비 조정, 색조와 채도 변화, 노이즈 추가, 블러링 등의 다양한 이미지 처리 기법을 적용합니다. 이를 통해 데이터셋을 다양하게 변형시키고 모델이 다양한 시나리오에 대응할 수 있도록 합니다.
+
+Test-Time Augmentation (TTA)
+<br>
+TTA 적용 방식: ['horizontal', 'vertical', 'diagonal']
+<br>
+TTA는 모델의 예측 결과를 개선하기 위해 테스트 이미지를 다양한 각도로 변형하고, 여러 예측 결과의 평균 또는 앙상블을 적용하는 기법입니다. 위 설정에서는 수평, 수직, 대각선 방향으로 이미지를 변형하여 TTA를 적용하였습니다. 이를 통해 모델의 예측을 안정화시키고 정확도를 향상시킬 수 있습니다.
 
 
 # Training
 
-# Inference
+'''bash
+conda activate detection
+python train.py
+```
 
 # Ensemble
 
 앙상블을 위해 다양한 모델들을 사용하였으며, 모델의 다양성이 mAP 향상에 중요한 역할을 한다고 판단하였습니다.
 여러 모델을 앙상블하기 위해 Weighted Boxes Fusion(WBF) 방식을 사용하였습니다.
-![](https://lh3.googleusercontent.com/u/0/docs/ADP-6oFBVQGnM8N4yemNaiX80qTh-PAZaP_QVqqwqzHBMPrif1Fx-OL228G-sfFcuAtXenZ-CTnc1SZjLSQJplOePT7u96Xs-SzUCFkOx6fSGRtYMNfDmObO7Si5WMAhIbNtbHCPVoznxcxt9nLjdx6vtgyEECydGQSYupunEOuJzotqGeqKknvZ_e3lMLqZgYbflKt6sBiUq5Z3MHXpLOrc02wXjpeY3C7pHc9KVHfckEnZKKnqPz-nvV4cvurlEF2k-h_4a296AOoGbqks8pkwTeBNvX6DqGu15A75frvTdhjnwRxE-WpcM_BFRTRwjWIhDrE-LqZOjX-d3EWMBenB_zW9VBRMw9OiQRjeQmhi6Aqkhwp_UdpJFMEjnpMs2AmITaGmgkUWcXYZrty98aHsSCwHefYjssYfun-M-eBOE2MaS8VLPkuRcKVAPnv5e_rHqq0txdnvcVZAeIMhMaUnClOdDNXQF77PPxzudTH2L40sMRs_-73OX3IT2MuRgJNU0sKFnrKciY828alUYwq1wB2MHqWrYtaSJUGNwMWtK5R1C3LMp_cMRrF_leyaNXQpatqmu3pj7NFsfSGgNfELtSluJn-LOCw9X8URMHS4UACMAeKXrYUYhkxnX76Hz6y-S2DT_QYmfXL33n49wVXLjp_qFlAL2nr4FfBeqNhjyQEk-XBwgCMr4aafmyf2LRaW-rvEmAWBmTTDTI53kZdIAXfMlTIRggypJYgJW2aRiDvusJHo4iKGvot-mf5-FnHm-RTTWjTsPiKxQwgnpSsRDiYjrbU9_BLQqO5w3tA9ttHUROg2J0YW9OT-djDrEYFbW6JifFD1bMd10_Qtd3V6Hrhsx2HQCpv3KZkJ3-iXH20yiQ961lr2gNwJT4Uv-8cJNuJlxERp5rTGCConWC9LrKk)
+Object detection 문제에서 앙상블은 다양한 방법으로 사용할 수 있습니다. 먼저 K-Fold로 fold마다 다르게 학습시킨 각 모델들을 합치는 방법이 있고, 여러 모델의 결과를 합치는 model ensemble, 프레임 워크마다 다르게 구축한 모델을 학습하는 frame work ensemble, 한 모델에 대해 seed만 다르게 하여 앙상블하는 seed ensemble, 한 모델에 대해 train data set의 data augmentation을 다르게 하여 학습시켜 ensemble하는 data augmentation ensemble방법이 있습니다. 저희 프로젝트에서는 K-fold를 이용하여 train과 validation set을 나눠서 학습시켰기 때문에 K-Fold 앙상블과, 여러 모델을 학습시킨 것을 이용하기 위해서 model ensemble을 진행하여 최종 결과를 도출하였습니다.
 
-wbf ensemble confidence calculation
-![](https://lh3.googleusercontent.com/u/0/docs/ADP-6oHDHEEnoJnjfKUmQCCjk14R5YbB5oWJmU7981RUIQ2bli_itqYViOwh7BXH7kEr1NlLM2G1x7Bk_g2Ut4hZQjtdDiT-EY-WdbzAwFunyNqi-ggxyK2Tgh9ZS7fDvA9Rz74CpBD4zvmq4k4byJIt7L5dHJt3irSdo1YYtJaeM-4mDBtOumoPKurCVURmn5KqcnNb6i9UlULEKSSFapPAC6VqjVL8PpbPA9b9hc1IeJKwQyw5maqei-jgD0NUxAoJOi3e03zSXIC8OoSlR4kxK5Xz23x2YLVsFNKB6ruTNwedT9lJJzdedBU2n1i845ZJm00Yv11d2vR8Ov56AyNSLvoqN8AhuR7dOs1NbDFWB53xcf8rdCIvowE6_AV6GIILBHMe2T_FiCdy8FLSMPmY6lSaXdOIxFBwVgfUsNP2tpSa_rBr4HZ35Ea7dWvn7EcGtjERT1cKoH1xVimEebA065dHGcWOUQfjLczpoXowKqcTJGGsuGo7u6lvRUdi9g93VSabUavPSDZfbTl_fvphIaemm9QehODRWIlDWrHBkCLD1FBRsmmqgmUqDJxtzqLNmWBKsdVsJv8ITxgkaxyNya0txoMhnsh0kvycoXyXsjyNNjwBBEf73g7aJz2AfS-SnU-h6q48dWBT_5z2IkbOO1xlePhOYjQYYGXTEqMfdq4hrCmBKwJtNy_Prl5yHTm461CA7whYXkFctn4Bl9K33E7DadU8OhforSN6KCncFbc48e_4MlTm-N90hMmI8WOw-mttn4GEab-3CRJ_OBW-T2g7SoFWWk362C4g1jmkzzCGYBBOakAe-y_P8ZVMjsdOImIbftle0XXPIGO9uVdeW7zaFbhBR0A7-mI3wgScB8wYr7gGHGyXdnYQuq9p7CI--580hs2I48Cr34Gsb1tnRVQ)
+
+위와 같은 Object detection에서 앙상블의 기초 원리는 앙상블에 사용되는 각 모델이 도출한 박스를 합쳐주는 것 입니다. 그러나 단순히 모델이 도출한 박스를 합치게 된다면, 너무 많은 박스가 생성되어 원하는 결과를 얻지 못할 수 있습니다. 따라서, 앙상블에 사용된 모델이 도출한 박스들 중 겹치는 박스들은 제거하는 것이 박스 수도 줄이고, 더 정확한 박스를 기준으로 남겨 성능을 올릴 수 있습니다.
+
+- WBF
+- NMS
+
+<img src="https://lh3.googleusercontent.com/u/0/docs/ADP-6oFBVQGnM8N4yemNaiX80qTh-PAZaP_QVqqwqzHBMPrif1Fx-OL228G-sfFcuAtXenZ-CTnc1SZjLSQJplOePT7u96Xs-SzUCFkOx6fSGRtYMNfDmObO7Si5WMAhIbNtbHCPVoznxcxt9nLjdx6vtgyEECydGQSYupunEOuJzotqGeqKknvZ_e3lMLqZgYbflKt6sBiUq5Z3MHXpLOrc02wXjpeY3C7pHc9KVHfckEnZKKnqPz-nvV4cvurlEF2k-h_4a296AOoGbqks8pkwTeBNvX6DqGu15A75frvTdhjnwRxE-WpcM_BFRTRwjWIhDrE-LqZOjX-d3EWMBenB_zW9VBRMw9OiQRjeQmhi6Aqkhwp_UdpJFMEjnpMs2AmITaGmgkUWcXYZrty98aHsSCwHefYjssYfun-M-eBOE2MaS8VLPkuRcKVAPnv5e_rHqq0txdnvcVZAeIMhMaUnClOdDNXQF77PPxzudTH2L40sMRs_-73OX3IT2MuRgJNU0sKFnrKciY828alUYwq1wB2MHqWrYtaSJUGNwMWtK5R1C3LMp_cMRrF_leyaNXQpatqmu3pj7NFsfSGgNfELtSluJn-LOCw9X8URMHS4UACMAeKXrYUYhkxnX76Hz6y-S2DT_QYmfXL33n49wVXLjp_qFlAL2nr4FfBeqNhjyQEk-XBwgCMr4aafmyf2LRaW-rvEmAWBmTTDTI53kZdIAXfMlTIRggypJYgJW2aRiDvusJHo4iKGvot-mf5-FnHm-RTTWjTsPiKxQwgnpSsRDiYjrbU9_BLQqO5w3tA9ttHUROg2J0YW9OT-djDrEYFbW6JifFD1bMd10_Qtd3V6Hrhsx2HQCpv3KZkJ3-iXH20yiQ961lr2gNwJT4Uv-8cJNuJlxERp5rTGCConWC9LrKk" alt="Example Image" width="200px" height="200px">
+
+
+##### wbf ensemble confidence calculation
+reference paper 참고.
+
+<img src="https://lh3.googleusercontent.com/u/0/docs/ADP-6oHDHEEnoJnjfKUmQCCjk14R5YbB5oWJmU7981RUIQ2bli_itqYViOwh7BXH7kEr1NlLM2G1x7Bk_g2Ut4hZQjtdDiT-EY-WdbzAwFunyNqi-ggxyK2Tgh9ZS7fDvA9Rz74CpBD4zvmq4k4byJIt7L5dHJt3irSdo1YYtJaeM-4mDBtOumoPKurCVURmn5KqcnNb6i9UlULEKSSFapPAC6VqjVL8PpbPA9b9hc1IeJKwQyw5maqei-jgD0NUxAoJOi3e03zSXIC8OoSlR4kxK5Xz23x2YLVsFNKB6ruTNwedT9lJJzdedBU2n1i845ZJm00Yv11d2vR8Ov56AyNSLvoqN8AhuR7dOs1NbDFWB53xcf8rdCIvowE6_AV6GIILBHMe2T_FiCdy8FLSMPmY6lSaXdOIxFBwVgfUsNP2tpSa_rBr4HZ35Ea7dWvn7EcGtjERT1cKoH1xVimEebA065dHGcWOUQfjLczpoXowKqcTJGGsuGo7u6lvRUdi9g93VSabUavPSDZfbTl_fvphIaemm9QehODRWIlDWrHBkCLD1FBRsmmqgmUqDJxtzqLNmWBKsdVsJv8ITxgkaxyNya0txoMhnsh0kvycoXyXsjyNNjwBBEf73g7aJz2AfS-SnU-h6q48dWBT_5z2IkbOO1xlePhOYjQYYGXTEqMfdq4hrCmBKwJtNy_Prl5yHTm461CA7whYXkFctn4Bl9K33E7DadU8OhforSN6KCncFbc48e_4MlTm-N90hMmI8WOw-mttn4GEab-3CRJ_OBW-T2g7SoFWWk362C4g1jmkzzCGYBBOakAe-y_P8ZVMjsdOImIbftle0XXPIGO9uVdeW7zaFbhBR0A7-mI3wgScB8wYr7gGHGyXdnYQuq9p7CI--580hs2I48Cr34Gsb1tnRVQ" alt="Example Image" width="200px" height="200px">
+
+
+실험 결과, yolo와 다른 모델들의 앙상블이 가장 높은 mAP를 달성하였습니다.
+yolo의 성능은 낮지만, 확실한 박스의 confidence를 높이는 경향이 있어 앙상블 시 성능 향상에 기여한 것으로 분석되었습니다.
+앙상블 결과는 mAP가 높지만 현실적으로 활용하기에는 불필요한 박스가 많아 실용적이지 않을 수 있습니다.
+추가적인 후처리나 조정을 통해 현실적으로 활용 가능한 결과물로 변환할 수 있을 것으로 판단됩니다.
 
 # 전체 진행 과정
 ![image](https://github.com/boostcampaitech5/level2_objectdetection-cv-14/assets/78690390/945661ee-80c9-4ce2-9d26-8b9d1c6d6778)
+
+저희 팀은 detection성능을 더 높이기 위해 여러가지 가설을 세워서 유력한 가설을 뽑았습니다. 저희 가설은 background와 class 구분을 잘 시켜서 feature를 extract하는것이었고, 그것을 실현하기 위해 모델링, augmentation, tta 등 여러 접근을 하였습니다. 각 접근의 타당성은 wandb, mAP, confusion matrix를 통해 검증하였습니다.
+
+매일 discussion한 뒤 방향성을 정하고, 구체화 시켜가며 프로젝트를 진행하였습니다. 하지만, 모델에 대한 이해도가 낮아서, 모델을 수정하거나 layer를 추가하는 등 pretrained된 모델을 직접 가공하여 사용하지는 못하였습니다. pretrained된 여러 모델을 적용시켜보았고, neck구조는 FPN으로 동일하게 사용하였습니다. augmentation을 적용시켜 다양한 유형의 데이터를 학습하도록 하였고, 마지막으로 optimzer와 schedular, lr은 다양하게 실험하면서 optimal한 값을 찾았습니다.
+
+결과적으로 mAP를 높이는 모델을 만들기 위해 Ensemble을 잘 이해하고 적용하는 것이 이번 대회의 key problem이였다고 생각합니다.최종적으로 convnext와 swin을 backbone으로 둔 cascade rcnn와 yolo를 선정하였고, wbf를 적용하여 좋은 결과를 거둘 수 있었습니다.
 
 # Reference
 ---
