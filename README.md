@@ -27,12 +27,11 @@
 ```
 baseline
 ├── eda
-│   ├── eda.ipynb
-│   └── show image.ipynb
+│   ├── stratified k fold validation.ipynb
+│   └── eda.ipynb
 │   
 ├── mmdetection
 │   ├── config
-│   ├── stratified k fold validation.ipynb
 │   ├── comfusion matrix
 │   ├── output image.ipynb
 │   ├── wbf emsemble.ipynb
