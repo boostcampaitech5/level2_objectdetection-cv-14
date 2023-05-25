@@ -40,6 +40,8 @@ baseline
 
 ![image](https://github.com/boostcampaitech5/level2_objectdetection-cv-14/assets/78690390/f10a587c-f4bf-476a-9d1f-f7b3e90843ea)
 
+<img src="https://github.com/boostcampaitech5/level2_objectdetection-cv-14/assets/78690390/f10a587c-f4bf-476a-9d1f-f7b3e90843ea" alt="Example Image" width="400px" height="300px">
+
 
 
 # Dataset
