@@ -97,7 +97,7 @@ TTA는 모델의 예측 결과를 개선하기 위해 테스트 이미지를 다
 
 # Training
 
-'''bash
+```bash
 conda activate detection
 python train.py
 ```
