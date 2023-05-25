@@ -43,13 +43,37 @@ baseline
 - 이미지 크기 : (1024, 1024)
 - COCO Format
 
+# 실험 세팅
 
+피어셰션을 통해 매일 방향성을 정하고, 노션과 wandb를 이용해 실험 내용을 공유하였습니다.
+데이터를 stratified k-fold로 분할하여 평가하였으며, 클래스 별 mAP, confusion matrix 등을 평가 방법으로 사용하였습니다.
+EDA
+
+# EDA
+
+EDA를 통해 클래스 불균형, 작은 박스 크기로 인한 분포, 어두운 이미지, 사이드에 치우친 이미지, 흔들린 이미지 등의 문제점을 확인하였습니다.
+이러한 문제를 데이터 augmentation을 통해 어느 정도 해결할 수 있을 것으로 기대하였습니다.
+작은 박스에 대한 실험 결과, 대부분의 모델에서 small box에 대한 mAP는 낮고, large size에 대한 mAP는 높았습니다.
+모델과 하이퍼파라미터 튜닝
+
+
+실험 결과, yolo와 다른 모델들의 앙상블이 가장 높은 mAP를 달성하였습니다.
+yolo의 성능은 낮지만, 확실한 박스의 confidence를 높이는 경향이 있어 앙상블 시 성능 향상에 기여한 것으로 분석되었습니다.
+앙상블 결과는 mAP가 높지만 현실적으로 활용하기에는 불필요한 박스가 많아 실용적이지 않을 수 있습니다.
+추가적인 후처리나 조정을 통해 현실적으로 활용 가능한 결과물로 변환할 수 있을 것으로 판단됩니다.
 
 ## 모델 아키텍쳐
 
+Faster R-CNN, Cascade R-CNN, SSD, YOLO 등의 모델 아키텍처를 고려하였습니다.
+Cascade R-CNN은 어려운 샘플에 대한 처리에 강점이 있다고 판단하여 사용하였습니다.
+Swin-Large, ConvNeXt-XLarge와 같은 pretrained 모델을 백본으로 선택하였으며, 상대적으로 낮은 learning rate를 설정하였습니다.
 
 
-# Augmentation
+
+# Augmentation 
+
+augmentation을 적용하여 전체적인 mAP를 상승시켰습니다.
+
 
 # Training
 
@@ -57,5 +81,16 @@ baseline
 
 # Ensemble
 
+앙상블을 위해 다양한 모델들을 사용하였으며, 모델의 다양성이 mAP 향상에 중요한 역할을 한다고 판단하였습니다.
+여러 모델을 앙상블하기 위해 Weighted Boxes Fusion(WBF) 방식을 사용하였습니다.
+
 # Reference
+---
+blog : https://comlini8-8.tistory.com/m/97
+약초으 숲 blog : https://herbwood.tistory.com/2
+Cascade RCNN : https://arxiv.org/abs/1712.00726
+Swin Transformer : https://arxiv.org/abs/2103.14030
+ConvNext : https://arxiv.org/abs/2201.03545
+WBF paper : https://arxiv.org/abs/1910.13302
+pretrained model Github : https://github.com/facebookresearch/ConvNeXt, https://github.com/microsoft/Swin-Transformer 
 
