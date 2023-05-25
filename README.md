@@ -87,10 +87,16 @@ augmentation을 적용하여 전체적인 mAP를 상승시켰습니다.
 # Reference
 ---
 blog : https://comlini8-8.tistory.com/m/97
-약초으 숲 blog : https://herbwood.tistory.com/2
+
+약초의 숲 blog : https://herbwood.tistory.com/2
+
 Cascade RCNN : https://arxiv.org/abs/1712.00726
+
 Swin Transformer : https://arxiv.org/abs/2103.14030
+
 ConvNext : https://arxiv.org/abs/2201.03545
+
 WBF paper : https://arxiv.org/abs/1910.13302
+
 pretrained model Github : https://github.com/facebookresearch/ConvNeXt, https://github.com/microsoft/Swin-Transformer 
 
