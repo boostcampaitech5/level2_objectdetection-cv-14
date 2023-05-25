@@ -1,15 +1,8 @@
-## 프로젝트 수행 결과
-
 ## 프로젝트 개요
 
 ![](https://lh3.googleusercontent.com/u/0/docs/ADP-6oHbFuIvdku4p_uGDCc6xdpodWjrSPuA5C1x6zDKct1_F_zG0qB85VPj73gAGx3qzjWnoSP5cYcmOZ91bJ1RSGiCCR_m0L5GcN9ENgUvJo6QJho2Bi7RhOkHTph7lYv25BsIPWrPLCPxLayiyNRBQ0LA6Z7afRgQf1r8GiwxtYVa12Dd-mGkll_Logp3h44z5EU2YM0e5wZ4lY68HkK4mIsCXVb_hJLK4g30f3ZK7aWDGX5uEoIyYyDEE6SbdtYpPq8tOluHNoiQ81lELb2HGoDSxInOo35b0itDtFwO3pe2W472KijHCmyjHEIGOsHD58xQaGgKYbvzRiiRi3FCoB6sqwK1-8G7dj44IPAlGvvx4OkKeuVCM1KbOdAzPGofpm7cJJAUj22RemP53ZkVX_a1ielMcWF_9d2ujv7JEkFz6vUL4pymNp9eu-tOy_mHZgO4jWqrBbsLWRUZbUim30RB3wCIIOB_skVIh0rp402P4qpSE_CX5hxAI3fVMBKO-CSs05OkNzz_ibNWV_HxDsr3PF7XRc91K4F-oAfUTjRrFBflmEfcU9znbuIQNPlBGktpcdECQcdE_ZAJ_kgMR5dKb5WpEXOEWSf1KFdWZ0kkNcAfTbvOrN-R0DctPakiwZw5OXputSzL3GTIlaPKy8XJt6CkZtjbrsPfWvSZxFESb1ayXYruXgsEmw4fDZxAEHuYU6bvqmwTpD8YbAPsguuF6BXgL-zI9lVccqJU3EoLCn8QRm3A6H1NONStlI8tImjOSstZB2Vb1ViYuJHbUQAYvo_3eHLuQzATjjhtTZxM56uQYmU6CJnq1OJaSGlw3Nogd19dvxGtQuyp9oQXNDdxlrd8HDqkpajRpWUS-m9_7amRryLemW5al3ITXSztQvS1Oc3U9FqxmMCsGdyvQXo)
 
-산업혁명 이후로 대량 생산 시대가 찾아오면서 쓰레기 처리문제, 매립지 문제 등은 끊임없이 인류를 괴롭히는 문제 중 하나가 되었습니다. 최근에는 코로나 이슈로 쓰레기 문제는 점점 더 심각해지고 있는 상황입니다.
-
-
-이러한 상황 속에서 분리수거의 중요성은 더 커지고 있습니다. 쓰레기 양이 많아지는 만큼 분리수거가 제대로 되지 않는 쓰레기들도 많아지는 것은 당연한 결과입니다.
-
-이를 해결하기 위해 우리는 사진에서 쓰레기를 Detection 하는 모델을 만들어보려고 합니다. 모델에 필요한 데이터셋은 일반 쓰레기, 플라스틱, 종이, 유리 등 10 종류의 쓰레기가 찍힌 사진들이 제공됩니다.
+산업혁명 이후로 대량 생산 시대가 찾아오면서 쓰레기 처리문제, 매립지 문제 등은 끊임없이 인류를 괴롭히는 문제 중 하나가 되었습니다. 최근에는 코로나 이슈로 쓰레기 문제는 점점 더 심각해지고 있는 상황입니다. 이러한 상황 속에서 분리수거의 중요성은 더 커지고 있습니다. 쓰레기 양이 많아지는 만큼 분리수거가 제대로 되지 않는 쓰레기들도 많아지는 것은 당연한 결과입니다.이를 해결하기 위해 우리는 사진에서 쓰레기를 Detection 하는 모델을 만들어보려고 합니다. 모델에 필요한 데이터셋은 일반 쓰레기, 플라스틱, 종이, 유리 등 10 종류의 쓰레기가 찍힌 사진들이 제공됩니다.
 
 - **Input :** 쓰레기 객체가 담긴 이미지와 bbox 정보(좌표, 카테고리)
 - **Output :** 모델은 bbox 좌표, 카테고리, score 값을 리턴
