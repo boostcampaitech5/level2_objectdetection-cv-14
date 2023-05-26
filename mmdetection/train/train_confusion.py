@@ -29,12 +29,14 @@ def main():
     
     cfg.data.train.classes = classes
     cfg.data.train.img_prefix = root
-    cfg.data.train.ann_file = root + f'stratified_v2/train_fold_{args.valid_num}.json' # train json 정보
+    #cfg.data.train.ann_file = root + f'stratified_v2/train_fold_{args.valid_num}.json' # train json 정보
+    cfg.data.train.ann_file = root + 'train_fold_5_up2048.json' # train json 정보
     # cfg.data.train.pipeline[2]['img_scale'] = (512,512) # Resize
 
     cfg.data.val.classes = classes
     cfg.data.val.img_prefix = root
-    cfg.data.val.ann_file = root + f'stratified_v2/val_fold_{args.valid_num}.json' # valid json 정보
+    #cfg.data.val.ann_file = root + f'stratified_v2/val_fold_{args.valid_num}.json' # valid json 정보
+    cfg.data.val.ann_file = root + f'stratified_v2/val_fold_5.json' # valid json 정보
 
     cfg.data.test.classes = classes
     cfg.data.test.img_prefix = root
@@ -49,8 +51,8 @@ def main():
     cfg.data.val.pipeline = cfg.val_pipeline
     cfg.data.test.pipeline = cfg.test_pipeline
 
-    cfg.data.samples_per_gpu = 1
-    cfg.data.workers_per_gpu = args.batch_size # batch size
+    cfg.data.samples_per_gpu = args.batch_size # batch size
+    cfg.data.workers_per_gpu = 4
 
     cfg.seed = args.seed
     cfg.gpu_ids = [0]
@@ -65,20 +67,20 @@ def main():
 
     #cfg.optimizer_config.grad_clip = dict(max_norm=35, norm_type=2)
     cfg.optimizer_config.grad_clip = None
-    cfg.optimizer.lr=args.lr
+    #cfg.optimizer.lr=args.lr
     #cfg.lr_config.step=[args.lr_step]
     
     print(cfg.optimizer)
     print(cfg.optimizer_config)
     
     cfg.evaluation.classwise = True
-    #cfg.evaluation = dict(interval=1, start=1,save_best='auto')
+    #cfg.evaluation = dict(interval=1, start=1, save_best='auto')
     #cfg.evaluation = dict(interval=1, save_best='bbox_mAP_50', metric='bbox')
     #cfg.evaluation = dict(interval=1, save_best='bbox_mAP_50', metric='mAP')
     # cfg.evaluation['save_best'] = 'bbox_mAP_50' 
     #cfg.evaluation.metric = 'mAP'
     
-    cfg.checkpoint_config = dict(max_keep_ckpts=1, interval=1)
+    cfg.checkpoint_config = dict(max_keep_ckpts=3, interval=1)
     
     log_config = dict(
         _delete=True,
