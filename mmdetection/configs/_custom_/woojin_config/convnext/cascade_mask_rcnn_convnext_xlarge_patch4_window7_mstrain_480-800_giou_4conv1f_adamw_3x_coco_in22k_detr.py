@@ -8,7 +8,8 @@
 
 _base_ = [
     '../_base_/models/cascade_mask_rcnn_convnext_fpn.py',
-    '../_base_/datasets/coco_detection.py',
+    # '../_base_/datasets/coco_detection.py',
+    '../_base_/datasets/coco_confusion_matrix.py',
     '../_base_/schedules/schedule_CosineAnnealing.py', '../_base_/default_runtime.py'
 ]
 
