@@ -12,7 +12,7 @@
 |김용환       | yolox, yolov5x6 실험                                         |
 |김우진       | EDA 수행, ConvNeXt-T, XL 실험, Augmentation(Multi-Scale, TTA, Albumentations) 적용       | 
 |신건희       | Swin_L_Cascade R-CNN 실험, Oversampling 실험                 | 
-|신중현       | Swin-T, L 기반 Cascade R-CNN, HTC 실험                       | 
+|신중현       | Swin-T, L 기반 Cascade R-CNN 실험, Ensenble 근거 실험                | 
 |이종휘       | Centernet2, DyHead, Universenet 실험, Augmentation 실험, Ensenble(WBF) 코드 |
 
 ## Leaderboard score
